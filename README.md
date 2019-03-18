@@ -4,13 +4,6 @@ Patra
 Patra, Parallel Auto Test Runner type A.  
 For competitive programming contest, or Marathon Match.
 
-Usage
----
-
-```
-$ patra ./solver input-dir output-dir
-```
-
 Installation
 ---
 
@@ -19,6 +12,20 @@ $ git clone https://github.com/zenito9970/Patra.git
 $ cd Patra
 $ cargo install --path .
 ```
+
+Usage
+---
+
+```
+$ patra ./solver input-dir output-dir
+```
+
+#### Options
+
+| Option | Description | Default value |
+|--------|-------------|---------------|
+| --threads | Specify the number of threads to execute in parallel. | 10 |
+| --logfile | Specify the file to save the log. | log.ltsv |
 
 Examples
 ---
