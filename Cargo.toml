@@ -1,0 +1,18 @@
+[package]
+name = "patra"
+version = "0.1.0"
+authors = ["zenito9970 <zenito9970@gmail.com>"]
+edition = "2018"
+description = """
+Patra, Parallel Auto Test Runner type A.
+For competitive programming contest, or Marathon Match.
+"""
+build = "build.rs"
+
+[dependencies]
+clap = "2.32.0"
+threadpool = "1.7.1"
+chrono = "0.4"
+
+[build-dependencies]
+clap = "2.32.0"

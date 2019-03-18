@@ -1,0 +1,39 @@
+#compdef patra
+
+autoload -U is-at-least
+
+_patra() {
+    typeset -A opt_args
+    typeset -a _arguments_options
+    local ret=1
+
+    if is-at-least 5.2; then
+        _arguments_options=(-s -S -C)
+    else
+        _arguments_options=(-s -C)
+    fi
+
+    local context curcontext="$curcontext" state line
+    _arguments "${_arguments_options[@]}" \
+'--threads=[Specify the number of threads to execute in parallel. default=10]' \
+'--logfile=[Specify the file to save the log. default=log.ltsv]' \
+'-h[Prints help information]' \
+'--help[Prints help information]' \
+'-V[Prints version information]' \
+'--version[Prints version information]' \
+':command -- target command:_files' \
+':input-dir -- directory containing test cases:_files' \
+':output-dir -- output target directory:_files' \
+&& ret=0
+    
+}
+
+(( $+functions[_patra_commands] )) ||
+_patra_commands() {
+    local commands; commands=(
+        
+    )
+    _describe -t commands 'patra commands' commands "$@"
+}
+
+_patra "$@"
