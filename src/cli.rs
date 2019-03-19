@@ -5,17 +5,21 @@ pub fn build_cli() -> App<'static, 'static> {
         .arg(
             Arg::with_name("command")
                 .help("target command")
-                .required(true),
+                .value_name("command"),
         )
         .arg(
             Arg::with_name("input-dir")
+                .short("i")
+                .long("in-dir")
                 .help("directory containing test cases")
-                .required(true),
+                .value_name("dir"),
         )
         .arg(
             Arg::with_name("output-dir")
+                .short("o")
+                .long("out-dir")
                 .help("output target directory")
-                .required(true),
+                .value_name("dir"),
         )
         .arg(
             Arg::with_name("threads")

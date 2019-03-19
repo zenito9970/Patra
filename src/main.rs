@@ -1,8 +1,10 @@
 #[macro_use]
 extern crate clap;
 mod cli;
+mod config;
 
 use chrono::Local;
+use config::get_config;
 use std::cmp::min;
 use std::fs;
 use std::io;
@@ -13,17 +15,25 @@ use std::sync::mpsc;
 use std::time;
 use threadpool::ThreadPool;
 
+fn expect_exit1<T>(val: Option<T>, msg: &str) -> T {
+    if let Some(val) = val {
+        val
+    } else {
+        eprintln!("{}", msg);
+        exit(1);
+    }
+}
+
 fn main() {
-    let matches = cli::build_cli().get_matches();
-    let command = matches.value_of("command").unwrap();
-    let input_dir = matches.value_of("input-dir").unwrap();
-    let output_dir = matches.value_of("output-dir").unwrap();
-    let savefile_name = matches.value_of("logfile").unwrap_or("log.ltsv");
-    let threads = matches
-        .value_of("threads")
-        .unwrap_or("10")
-        .parse::<usize>()
-        .unwrap();
+    let conf = get_config();
+    let command = expect_exit1(conf.command, "[ERROR] command is not specified");
+    let input_dir = expect_exit1(conf.input_dir, "[ERROR] input directory is not specified");
+    let output_dir = expect_exit1(conf.output_dir, "[ERROR] output directory is not specified");
+    let savefile_name = conf.logfile.unwrap_or(String::from("log.ltsv"));
+    let threads = conf.threads.unwrap_or(10);
+
+    let input_dir = input_dir.as_str();
+    let output_dir = output_dir.as_str();
 
     // dbg!(command);
     // dbg!(input_dir);
@@ -32,7 +42,7 @@ fn main() {
     // dbg!(threads);
 
     if !Path::new(output_dir).is_dir() {
-        eprintln!("error: not directory: {}", output_dir);
+        eprintln!("[ERROR] Specified out-dir is not directory: {}", output_dir);
         exit(1);
     }
 
@@ -48,9 +58,9 @@ fn main() {
         let command = command.to_owned();
         pool.execute(move || {
             let now = Local::now();
-            eprintln!("[Running] case {}", index + 1);
+            eprintln!("[INFO] Running: case {}", index + 1);
             let (_status, millis) = exec(index + 1, command, &input_path, &output_path);
-            eprintln!("[Finish] case {}", index + 1);
+            eprintln!("[INFO] Finish: case {}", index + 1);
             sender.send((input_path, output_path, millis, now)).unwrap();
         });
     }
@@ -119,11 +129,11 @@ fn exec(
         .stderr(Stdio::piped());
 
     let start = time::Instant::now();
-    let mut child = com.spawn().expect("running command");
+    let mut child = com.spawn().expect("[ERROR] running command is failed");
     let child_stderr = child.stderr.as_mut().unwrap();
     let reader = BufReader::new(child_stderr);
     for line in reader.lines() {
-        eprintln!("[stderr: case {}] {}", pid, line.unwrap());
+        eprintln!("[DEBUG] stderr(case {}): {}", pid, line.unwrap());
     }
     let status = child.wait().unwrap();
     let elapsed = start.elapsed();

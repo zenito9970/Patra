@@ -15,15 +15,17 @@ _patra() {
 
     local context curcontext="$curcontext" state line
     _arguments "${_arguments_options[@]}" \
+'-i+[directory containing test cases]' \
+'--in-dir=[directory containing test cases]' \
+'-o+[output target directory]' \
+'--out-dir=[output target directory]' \
 '--threads=[Specify the number of threads to execute in parallel. default=10]' \
 '--logfile=[Specify the file to save the log. default=log.ltsv]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
 '--version[Prints version information]' \
-':command -- target command:_files' \
-':input-dir -- directory containing test cases:_files' \
-':output-dir -- output target directory:_files' \
+'::command -- target command:_files' \
 && ret=0
     
 }

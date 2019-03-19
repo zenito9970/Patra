@@ -20,13 +20,29 @@ _patra() {
 
     case "${cmd}" in
         patra)
-            opts=" -h -V  --help --version --threads --logfile  <command> <input-dir> <output-dir> "
+            opts=" -h -V -i -o  --help --version --in-dir --out-dir --threads --logfile  <command> "
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
                 return 0
             fi
             case "${prev}" in
                 
+                --in-dir)
+                    COMPREPLY=($(compgen -f ${cur}))
+                    return 0
+                    ;;
+                    -i)
+                    COMPREPLY=($(compgen -f ${cur}))
+                    return 0
+                    ;;
+                --out-dir)
+                    COMPREPLY=($(compgen -f ${cur}))
+                    return 0
+                    ;;
+                    -o)
+                    COMPREPLY=($(compgen -f ${cur}))
+                    return 0
+                    ;;
                 --threads)
                     COMPREPLY=($(compgen -f ${cur}))
                     return 0
