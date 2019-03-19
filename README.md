@@ -2,7 +2,7 @@ Patra
 ===
 
 Patra, Parallel Auto Test Runner type A.  
-For competitive programming contest, or Marathon Match.
+CLI Tool for Competitive programming and Marathon Match.
 
 Installation
 ---
@@ -21,7 +21,7 @@ $ patra --help
 patra 0.2.0
 zenito9970 <zenito9970@gmail.com>
 Patra, Parallel Auto Test Runner type A.
-For competitive programming contest, or Marathon Match.
+CLI Tool for Competitive programming and Marathon Match.
 
 USAGE:
     patra [OPTIONS] [command]
@@ -56,7 +56,7 @@ The setting value of Options is used with priority.
 Examples
 ---
 
-#### Don't use `patra.toml`
+#### When not using `patra.toml`
 
 ```
 $ tree
@@ -97,7 +97,7 @@ $ tree
 2 directories, 9 files
 ```
 
-#### Use `patra.toml`
+#### When using `patra.toml`
 
 ```
 $ tree
