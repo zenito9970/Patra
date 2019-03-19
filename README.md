@@ -42,7 +42,7 @@ ARGS:
 
 ### Config file
 
-You can setting to `patra.toml` file.  
+You can setting to `patra.toml` file in current directory.  
 The setting value of Options is used with priority.
 
 | Key | Type | Description |
